@@ -7,7 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class LachaisedusavoirApplication {
 
 	public static void main(String[] args) {
+		//JsonTriviaParser test = new JsonTriviaParser();
+		//test.test_wesh();
 		SpringApplication.run(LachaisedusavoirApplication.class, args);
 	}
-
 }
