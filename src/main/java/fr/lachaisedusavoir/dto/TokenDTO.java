@@ -1,4 +1,4 @@
-package fr.lachaisedusavoir.DTO;
+package fr.lachaisedusavoir.dto;
 
 public class TokenDTO {
     private String token;

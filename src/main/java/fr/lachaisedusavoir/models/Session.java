@@ -1,8 +1,12 @@
-package fr.lachaisedusavoir.accessingdatamysql;
+package fr.lachaisedusavoir.models;
 
 import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Data
+@NoArgsConstructor
 @Table(name = "session")
 public class Session {
     @Id
@@ -16,28 +20,9 @@ public class Session {
     @Column(name = "api_token", nullable = false, length = 255)
     private String apiToken;
 
-    // Getters et Setters
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
+    public Session(User user, String apiToken) {
         this.user = user;
-    }
-
-    public String getApiToken() {
-        return apiToken;
-    }
-
-    public void setApiToken(String apiToken) {
         this.apiToken = apiToken;
     }
 }
+

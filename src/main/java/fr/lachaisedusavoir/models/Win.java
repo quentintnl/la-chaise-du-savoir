@@ -1,10 +1,10 @@
-package fr.lachaisedusavoir.accessingdatamysql;
+package fr.lachaisedusavoir.models;
 
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "game_session")
-public class GameSession {
+@Table(name = "win")
+public class Win {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -13,8 +13,8 @@ public class GameSession {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(name = "api_token", nullable = false, length = 255)
-    private String apiToken;
+    @Column(nullable = false)
+    private Integer points;
 
     // Getters et Setters
     public Integer getId() {
@@ -33,11 +33,12 @@ public class GameSession {
         this.user = user;
     }
 
-    public String getApiToken() {
-        return apiToken;
+    public Integer getPoints() {
+        return points;
     }
 
-    public void setApiToken(String apiToken) {
-        this.apiToken = apiToken;
+    public void setPoints(Integer points) {
+        this.points = points;
     }
 }
+

@@ -1,4 +1,4 @@
-package fr.lachaisedusavoir.accessingdatamysql;
+package fr.lachaisedusavoir.models;
 
 import jakarta.persistence.*;
 
@@ -42,3 +42,4 @@ public class WinSession {
         this.gameSession = gameSession;
     }
 }
+
