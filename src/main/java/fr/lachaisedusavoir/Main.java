@@ -1,5 +1,7 @@
 package fr.lachaisedusavoir;
 
+import fr.lachaisedusavoir.dto.QuestionDto;
+import fr.lachaisedusavoir.service.JsonToQuestionDtoParserService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -7,7 +9,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class Main {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Main.class, args);
+		JsonToQuestionDtoParserService test = new JsonToQuestionDtoParserService();
+		test.test_wesh();
+		//SpringApplication.run(Main.class, args);
 	}
 
 }

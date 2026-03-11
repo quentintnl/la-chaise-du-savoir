@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.ArrayList;
 
 @Data
-public class QuestionDTO {
+public class QuestionDto {
     private String type;
     private String difficulty;
     private String category;
@@ -13,7 +13,7 @@ public class QuestionDTO {
     private String correct_answer;
     private ArrayList<String> incorrect_answer;
 
-    public QuestionDTO(String type, String difficulty, String category, String question, String correct_answer, ArrayList<String> incorrect_answer) {
+    public QuestionDto(String type, String difficulty, String category, String question, String correct_answer, ArrayList<String> incorrect_answer) {
         this.type = type;
         this.difficulty = difficulty;
         this.category = category;
