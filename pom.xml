@@ -86,6 +86,9 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>fr.lachaisedusavoir.LachaisedusavoirApplication</mainClass>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
