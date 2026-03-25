@@ -7,8 +7,8 @@ import java.util.Date;
 
 @Entity
 @Data
-@Table(name = "match")
-public class Match {
+@Table(name = "game_match")
+public class GameMatch {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

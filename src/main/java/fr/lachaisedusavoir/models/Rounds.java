@@ -13,7 +13,7 @@ public class Rounds {
 
     @ManyToOne
     @JoinColumn(name = "match_id", nullable = false)
-    private Match match;
+    private GameMatch match;
 
     @Column(name = "round_number")
     private Integer round_number;
