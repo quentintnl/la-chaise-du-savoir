@@ -8,12 +8,14 @@ import fr.lachaisedusavoir.service.RankingService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.MockBean;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.Arrays;
 import java.util.List;
@@ -27,19 +29,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Tests d'intégration du contrôleur de ranking.
  */
-@WebMvcTest(RankingController.class)
-@AutoConfigureMockMvc
+@ExtendWith(MockitoExtension.class)
 @DisplayName("Tests du RankingController")
 class RankingControllerTest {
 
-    @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+    @Mock
     private RankingService rankingService;
-
-    @Autowired
-    private ObjectMapper objectMapper;
 
     private RankingDTO rankingDTO1;
     private RankingDTO rankingDTO2;
@@ -48,6 +45,9 @@ class RankingControllerTest {
 
     @BeforeEach
     void setUp() {
+        RankingController controller = new RankingController(rankingService);
+        mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+
         rankingDTO1 = new RankingDTO(1, "alice", 100, 1);
         rankingDTO2 = new RankingDTO(2, "bob", 200, 2);
         rankingDTO3 = new RankingDTO(3, "charlie", 150, 3);

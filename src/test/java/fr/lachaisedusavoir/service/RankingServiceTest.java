@@ -351,21 +351,4 @@ class RankingServiceTest {
         assertThat(rankings).isEmpty();
     }
 }
-package fr.lachaisedusavoir.dto;
-
-/**
- * DTO pour représenter les informations de ranking d'un utilisateur.
- *
- * @param userId L'identifiant unique de l'utilisateur
- * @param userLogin Le login de l'utilisateur
- * @param score Le score (points ou win streak selon le contexte)
- * @param rank Le rang de l'utilisateur dans le classement (1-indexed)
- */
-public record RankingDTO(
-        Integer userId,
-        String userLogin,
-        Integer score,
-        Integer rank
-) {
-}
 

@@ -89,8 +89,7 @@ public class RankingIntegrationService {
      * @throws IllegalArgumentException si l'utilisateur n'existe pas
      */
     private User getUser(Integer userId) {
-        return authService.getUserById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("Utilisateur non trouvé avec l'ID: " + userId));
+        return authService.getUserById(userId);
     }
 }
 

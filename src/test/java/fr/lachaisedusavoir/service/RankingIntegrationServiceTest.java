@@ -92,7 +92,7 @@ class RankingIntegrationServiceTest {
     void testApplyWinStreakBonus_AtFiveVictories() {
         // Arrange
         user.setUserWinstreak(5);
-        when(authService.getUserById(1)).thenReturn(Optional.of(user));
+        when(authService.getUserById(1)).thenReturn(user);
 
         // Act
         rankingIntegrationService.applyWinStreakBonus(1, 1);
@@ -106,7 +106,7 @@ class RankingIntegrationServiceTest {
     void testApplyWinStreakBonus_AtTenVictories() {
         // Arrange
         user.setUserWinstreak(10);
-        when(authService.getUserById(1)).thenReturn(Optional.of(user));
+        when(authService.getUserById(1)).thenReturn(user);
 
         // Act
         rankingIntegrationService.applyWinStreakBonus(1, 1);
@@ -120,7 +120,7 @@ class RankingIntegrationServiceTest {
     void testApplyWinStreakBonus_NoWinStreak() {
         // Arrange
         user.setUserWinstreak(0);
-        when(authService.getUserById(1)).thenReturn(Optional.of(user));
+        when(authService.getUserById(1)).thenReturn(user);
 
         // Act
         rankingIntegrationService.applyWinStreakBonus(1, 1);
@@ -134,7 +134,7 @@ class RankingIntegrationServiceTest {
     void testApplyWinStreakBonus_NoMultipleOfFive() {
         // Arrange
         user.setUserWinstreak(3);
-        when(authService.getUserById(1)).thenReturn(Optional.of(user));
+        when(authService.getUserById(1)).thenReturn(user);
 
         // Act
         rankingIntegrationService.applyWinStreakBonus(1, 1);
@@ -148,7 +148,7 @@ class RankingIntegrationServiceTest {
     void testApplyWinStreakBonus_WithMultiplier() {
         // Arrange
         user.setUserWinstreak(5);
-        when(authService.getUserById(1)).thenReturn(Optional.of(user));
+        when(authService.getUserById(1)).thenReturn(user);
 
         // Act
         rankingIntegrationService.applyWinStreakBonus(1, 2);
@@ -161,7 +161,7 @@ class RankingIntegrationServiceTest {
     @DisplayName("Devrait lancer une exception si l'utilisateur n'existe pas pour applyWinStreakBonus")
     void testApplyWinStreakBonus_UserNotFound() {
         // Arrange
-        when(authService.getUserById(999)).thenReturn(Optional.empty());
+        when(authService.getUserById(999)).thenThrow(new IllegalArgumentException("Utilisateur non trouvé avec l'ID: 999"));
 
         // Act & Assert
         try {
@@ -176,7 +176,7 @@ class RankingIntegrationServiceTest {
     void testApplyWinStreakBonus_NullWinStreak() {
         // Arrange
         user.setUserWinstreak(null);
-        when(authService.getUserById(1)).thenReturn(Optional.of(user));
+        when(authService.getUserById(1)).thenReturn(user);
 
         // Act
         rankingIntegrationService.applyWinStreakBonus(1, 1);

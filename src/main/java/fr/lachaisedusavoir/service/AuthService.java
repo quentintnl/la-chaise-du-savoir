@@ -5,6 +5,7 @@ import fr.lachaisedusavoir.repository.SessionRepository;
 import fr.lachaisedusavoir.models.User;
 import fr.lachaisedusavoir.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +14,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AuthService {
     private final UserRepository userRepository;
     private final SessionRepository sessionRepository;
@@ -60,5 +62,10 @@ public class AuthService {
     @Transactional
     public void logout(Integer userId) {
         sessionRepository.deleteByUserId(userId);
+    }
+
+    public User getUserById(Integer userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("Utilisateur non trouvé avec l'ID: " + userId));
     }
 }
