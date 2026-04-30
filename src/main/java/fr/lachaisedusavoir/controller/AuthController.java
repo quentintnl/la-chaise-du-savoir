@@ -10,10 +10,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 @RequiredArgsConstructor
 @Slf4j
 public class AuthController {
@@ -55,9 +56,10 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<Void> logout(@RequestHeader("Authorization") String token) {
-        // Extract userId from token - for now, this is simplified
-        // In a real application, you would validate the token and extract the userId
+    public ResponseEntity<Void> logout(Authentication authentication) {
+        if (authentication != null && authentication.getPrincipal() instanceof Integer userId) {
+            authService.logout(userId);
+        }
         return ResponseEntity.noContent().build();
     }
 }
