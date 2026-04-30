@@ -18,8 +18,11 @@ public class GameMatch {
     private User user1;
 
     @ManyToOne
-    @JoinColumn(name = "user2_id", nullable = false)
+    @JoinColumn(name = "user2_id", nullable = true)
     private User user2;
+
+    @Column(name = "invite_code", length = 4)
+    private String inviteCode;
 
     @Column(name = "created_at", nullable = false, length = 255)
     private Date created_at;
