@@ -13,6 +13,7 @@ public class MatchController {
     @RequestMapping("/create")
     public ResponseEntity<?> createMatch() {
         try {
+
             return ResponseEntity.ok("Match created successfully");
         } catch (Exception e) {
             log.error("Unexpected error during match creation", e);
