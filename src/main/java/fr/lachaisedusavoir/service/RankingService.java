@@ -4,7 +4,6 @@ import fr.lachaisedusavoir.dto.RankingDTO;
 import fr.lachaisedusavoir.models.User;
 import fr.lachaisedusavoir.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -17,7 +16,6 @@ import java.util.stream.Collectors;
  */
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class RankingService {
 
     private final UserRepository userRepository;
@@ -28,7 +26,6 @@ public class RankingService {
      * @return Liste des utilisateurs classés par points décroissants
      */
     public List<RankingDTO> getGlobalRanking() {
-        log.info("Récupération du classement global");
         List<User> users = userRepository.findAll();
         return convertToRankingDTOs(users, true);
     }
@@ -39,7 +36,6 @@ public class RankingService {
      * @return Liste des utilisateurs classés par win streak décroissant
      */
     public List<RankingDTO> getWinStreakRanking() {
-        log.info("Récupération du classement par win streak");
         List<User> users = userRepository.findAll();
         return convertToRankingDTOs(users, false);
     }
@@ -52,7 +48,6 @@ public class RankingService {
      * @throws IllegalArgumentException si l'utilisateur n'existe pas
      */
     public RankingDTO getUserRanking(Integer userId) {
-        log.info("Récupération du rang de l'utilisateur: {}", userId);
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("Utilisateur non trouvé avec l'ID: " + userId));
 
@@ -125,8 +120,6 @@ public class RankingService {
 
         int currentPoints = user.getGlobalPoints() != null ? user.getGlobalPoints() : 0;
         user.setGlobalPoints(currentPoints + points);
-        log.info("Points ajoutés pour l'utilisateur {}: +{} (total: {})",
-                userId, points, user.getGlobalPoints());
 
         return userRepository.save(user);
     }
@@ -149,8 +142,6 @@ public class RankingService {
 
         int currentStreak = user.getUserWinstreak() != null ? user.getUserWinstreak() : 0;
         user.setUserWinstreak(currentStreak + streak);
-        log.info("Win streak augmenté pour l'utilisateur {}: +{} (total: {})",
-                userId, streak, user.getUserWinstreak());
 
         return userRepository.save(user);
     }
@@ -167,7 +158,6 @@ public class RankingService {
                 .orElseThrow(() -> new IllegalArgumentException("Utilisateur non trouvé avec l'ID: " + userId));
 
         user.setUserWinstreak(0);
-        log.info("Win streak réinitialisé pour l'utilisateur {}", userId);
 
         return userRepository.save(user);
     }
