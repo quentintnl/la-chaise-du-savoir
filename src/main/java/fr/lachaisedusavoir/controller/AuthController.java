@@ -9,10 +9,11 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthService authService;
@@ -48,6 +49,10 @@ public class AuthController {
 
     @PostMapping("/logout")
     public ResponseEntity<Void> logout(@RequestHeader("Authorization") String token) {
+    public ResponseEntity<Void> logout(Authentication authentication) {
+        if (authentication != null && authentication.getPrincipal() instanceof Integer userId) {
+            authService.logout(userId);
+        }
         return ResponseEntity.noContent().build();
     }
 }

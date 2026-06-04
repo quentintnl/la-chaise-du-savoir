@@ -15,7 +15,7 @@ public class WinSession {
 
     @ManyToOne
     @JoinColumn(name = "game_session_id", nullable = false)
-    private GameSession gameSession;
+    private GameMatch gameSession;
 
     // Getters et Setters
     public Integer getId() {
@@ -34,12 +34,12 @@ public class WinSession {
         this.win = win;
     }
 
-    public GameSession getGameSession() {
+    public GameMatch getGameSession() {
         return gameSession;
     }
 
-    public void setGameSession(GameSession gameSession) {
-        this.gameSession = gameSession;
+    public void setGameSession(GameMatch match) {
+        this.gameSession = match;
     }
 }
 
