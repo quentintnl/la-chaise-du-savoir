@@ -10,7 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/match")
+@RequestMapping("/api/match")
 @RequiredArgsConstructor
 @Slf4j
 public class MatchController {
