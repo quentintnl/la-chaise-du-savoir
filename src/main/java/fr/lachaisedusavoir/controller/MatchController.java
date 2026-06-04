@@ -3,6 +3,8 @@ package fr.lachaisedusavoir.controller;
 import fr.lachaisedusavoir.models.GameMatch;
 import fr.lachaisedusavoir.service.MatchService;
 import fr.lachaisedusavoir.dto.MatchResponseDto;
+import fr.lachaisedusavoir.models.User;
+import fr.lachaisedusavoir.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -16,11 +18,14 @@ import org.springframework.web.bind.annotation.*;
 public class MatchController {
 
     private final MatchService matchService;
+    private final UserRepository userRepository;
 
     @PostMapping("/create")
     public ResponseEntity<?> createMatch(Authentication authentication) {
         try {
-            Integer userId = (Integer) authentication.getPrincipal();
+            String login = (String) authentication.getPrincipal();
+            User user = userRepository.findByLogin(login).orElseThrow(() -> new RuntimeException("User not found"));
+            Integer userId = user.getId();
             GameMatch match = matchService.createMatch(userId);
             
             MatchResponseDto response = new MatchResponseDto(
@@ -39,7 +44,9 @@ public class MatchController {
     @PostMapping("/join")
     public ResponseEntity<?> joinMatch(@RequestParam String inviteCode, Authentication authentication) {
         try {
-            Integer userId = (Integer) authentication.getPrincipal();
+            String login = (String) authentication.getPrincipal();
+            User user = userRepository.findByLogin(login).orElseThrow(() -> new RuntimeException("User not found"));
+            Integer userId = user.getId();
             GameMatch match = matchService.joinMatch(inviteCode, userId);
             
             MatchResponseDto response = new MatchResponseDto(
