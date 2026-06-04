@@ -1,5 +1,6 @@
 package fr.lachaisedusavoir.service;
 
+import fr.lachaisedusavoir.config.JwtUtil;
 import fr.lachaisedusavoir.models.Session;
 import fr.lachaisedusavoir.repository.SessionRepository;
 import fr.lachaisedusavoir.models.User;
@@ -9,14 +10,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.UUID;
-
 @Service
 @RequiredArgsConstructor
 public class AuthService {
     private final UserRepository userRepository;
     private final SessionRepository sessionRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
     @Transactional
     public Session signup(String login, String password) {
@@ -29,8 +29,8 @@ public class AuthService {
         User user = new User(login, passwordEncoder.encode(password));
         User savedUser = userRepository.save(user);
 
-        // Créer une session pour l'utilisateur
-        String apiToken = UUID.randomUUID().toString();
+        // Créer un token JWT
+        String apiToken = jwtUtil.generateToken(savedUser.getLogin());
         Session session = new Session(savedUser, apiToken);
 
         return sessionRepository.save(session);
@@ -50,8 +50,8 @@ public class AuthService {
         // Supprimer les anciennes sessions
         sessionRepository.deleteByUserId(user.getId());
 
-        // Créer une nouvelle session
-        String apiToken = UUID.randomUUID().toString();
+        // Créer un nouveau token JWT
+        String apiToken = jwtUtil.generateToken(user.getLogin());
         Session session = new Session(user, apiToken);
 
         return sessionRepository.save(session);
@@ -60,5 +60,10 @@ public class AuthService {
     @Transactional
     public void logout(Integer userId) {
         sessionRepository.deleteByUserId(userId);
+    }
+
+    public User getUserById(Integer userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("Utilisateur non trouvé avec l'ID: " + userId));
     }
 }

@@ -9,5 +9,11 @@ services:
       - MYSQL_DATABASE=la-chaise-du-savoir
     volumes:
       - db_data:/var/lib/mysql
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - "SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/la-chaise-du-savoir"
 volumes:
   db_data:
