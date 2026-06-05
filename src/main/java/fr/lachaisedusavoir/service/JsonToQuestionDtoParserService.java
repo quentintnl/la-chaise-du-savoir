@@ -1,38 +1,38 @@
 package fr.lachaisedusavoir.service;
 
 import fr.lachaisedusavoir.dto.QuestionDto;
-
-import tools.jackson.databind.ObjectMapper;
-
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
+@Service
 public class JsonToQuestionDtoParserService {
-    public void jsonQuestionToQuestionDto(){
 
-    }
+    public List<QuestionDto> parse(String json) {
+        List<QuestionDto> questions = new ArrayList<>();
+        JSONObject jsonObject = new JSONObject(json);
+        JSONArray results = jsonObject.getJSONArray("results");
 
-    public void jsonTokenToTokenDTO(){
-        //String jsonResponse =
-    }
+        for (int i = 0; i < results.length(); i++) {
+            JSONObject questionJson = results.getJSONObject(i);
 
-    public void test_wesh(){
-        try {
-            ArrayList<String> incorrect = new ArrayList<String>();
-            incorrect.add("tip");
-            incorrect.add("tip1");
-            QuestionDto q = new QuestionDto("Uip","Iip","Iip","Iip","Iip",incorrect);
+            String category = questionJson.getString("category");
+            String type = questionJson.getString("type");
+            String difficulty = questionJson.getString("difficulty");
+            String questionText = questionJson.getString("question");
+            String correctAnswer = questionJson.getString("correct_answer");
 
-            ObjectMapper mapper = new ObjectMapper();
-            String jsonStr = mapper.writeValueAsString(q);
-            System.out.println("JSON string : "+ jsonStr);
+            JSONArray incorrectAnswersJson = questionJson.getJSONArray("incorrect_answers");
+            ArrayList<String> incorrectAnswers = new ArrayList<>();
+            for (int j = 0; j < incorrectAnswersJson.length(); j++) {
+                incorrectAnswers.add(incorrectAnswersJson.getString(j));
+            }
 
-            String jsonInput = "{\"type\":\"Jane\",\"difficulty\":\"Doe\",\"category\":\"Doe\",\"question\":\"Doe?\",\"correct_answer\":\"Doe\",\"incorrect_answer\":\"Doe\",}";
-            QuestionDto result = mapper.readValue(jsonStr, QuestionDto.class);
-            //QuestionDto result2 = mapper.readValue(new URL("https://opentdb.com/api.php?amount=1"), QuestionDto.class);
-            System.out.println("User from JSON: " + result.getType() + " " + result.getDifficulty());
-        }catch (Exception e) {
-            e.printStackTrace();
+            questions.add(new QuestionDto(category, type, difficulty, questionText, correctAnswer, incorrectAnswers));
         }
+        return questions;
     }
 }
