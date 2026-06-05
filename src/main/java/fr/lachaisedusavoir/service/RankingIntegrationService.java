@@ -39,20 +39,32 @@ public class RankingIntegrationService {
         rankingService.addWinStreak(userId, 1);
     }
 
-    /**
-     * Enregistre une défaite pour un utilisateur en mode solo.
-     * Réinitialise le win streak et optionnellement pénalise des points.
-     *
-     * @param userId L'ID de l'utilisateur
-     * @param penaltyPoints Les points de pénalité (peut être 0)
-     */
-    public void recordLoss(Integer userId, Integer penaltyPoints) {
-        rankingService.resetWinStreak(userId);
-        if (penaltyPoints > 0) {
-            // Note: Vous pouvez ajouter une méthode removePoints si nécessaire
-            // Pour l'instant, les points ne sont pas retranchés en cas de défaite
-        }
-    }
+     /**
+      * Enregistre une défaite pour un utilisateur en mode solo.
+      * Réinitialise le win streak et optionnellement pénalise des points.
+      *
+      * @param userId L'ID de l'utilisateur
+      * @param penaltyPoints Les points de pénalité (peut être 0)
+      */
+     public void recordLoss(Integer userId, Integer penaltyPoints) {
+         rankingService.resetWinStreak(userId);
+         if (penaltyPoints > 0) {
+             // Note: Vous pouvez ajouter une méthode removePoints si nécessaire
+             // Pour l'instant, les points ne sont pas retranchés en cas de défaite
+         }
+     }
+
+     /**
+      * Enregistre une égalité (tie) pour deux utilisateurs en mode multijoueur.
+      * Ajoute des points bonus d'égalité et maintient le win streak.
+      *
+      * @param userId L'ID de l'utilisateur
+      * @param tiePoints Les points gagnés lors de l'égalité
+      */
+     public void recordTie(Integer userId, Integer tiePoints) {
+         rankingService.addPoints(userId, tiePoints);
+         // Le win streak n'est pas augmenté ni réinitialisé en cas d'égalité
+     }
 
     /**
      * Enregistre une série de victoires en ajoutant des points bonus.

@@ -30,4 +30,7 @@ public class GameMatch {
     @Column(name = "status")
     private Boolean status;
 
+    @Column(name = "finalized", nullable = false)
+    private Boolean finalized = false;
+
 }
