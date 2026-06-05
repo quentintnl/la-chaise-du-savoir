@@ -1,15 +1,20 @@
 package fr.lachaisedusavoir.controller;
 
+import fr.lachaisedusavoir.dto.QuestionDto;
 import fr.lachaisedusavoir.models.GameMatch;
+import fr.lachaisedusavoir.service.JsonToQuestionDtoParserService;
 import fr.lachaisedusavoir.service.MatchService;
 import fr.lachaisedusavoir.dto.MatchResponseDto;
 import fr.lachaisedusavoir.models.User;
 import fr.lachaisedusavoir.repository.UserRepository;
+import fr.lachaisedusavoir.service.QuestionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/match")
@@ -18,6 +23,8 @@ import org.springframework.web.bind.annotation.*;
 public class MatchController {
 
     private final MatchService matchService;
+    private final QuestionService questionService;
+    private final JsonToQuestionDtoParserService jsonToQuestionDtoParserService;
     private final UserRepository userRepository;
 
     @PostMapping("/create")
@@ -66,19 +73,26 @@ public class MatchController {
 
     @GetMapping("/{matchId}/question")
     public ResponseEntity<?> getQuestion(@PathVariable Integer matchId) {
-        return ResponseEntity.ok(matchService.getQuestion());
+        try {
+            String questionsJson = questionService.fetchQuestions();
+            if (questionsJson != null) {
+                List<QuestionDto> questions = jsonToQuestionDtoParserService.parse(questionsJson);
+                return ResponseEntity.ok(questions);
+            }
+            return ResponseEntity.status(500).build();
+        } catch (Exception e) {
+            log.error("Unexpected error during fetching question", e);
+            return ResponseEntity.status(500).body("Une erreur est survenue lors de la récupération de la question");
+        }
     }
 
-    @PostMapping("/{matchId}/answer")
-    public ResponseEntity<?> submitAnswer(@PathVariable Integer matchId, @RequestParam boolean isCorrect, Authentication authentication) {
-        try {
-            String login = (String) authentication.getPrincipal();
-            User user = userRepository.findByLogin(login).orElseThrow(() -> new RuntimeException("User not found"));
-            String result = matchService.submitAnswer(matchId, user.getId(), isCorrect);
-            return ResponseEntity.ok(result);
-        } catch (Exception e) {
-            log.error("Unexpected error during answer submission", e);
-            return ResponseEntity.status(500).body("Une erreur est survenue: " + e.getMessage());
-        }
+    @PostMapping("/{matchId}/winner")
+    public ResponseEntity<?> submitWinner(@PathVariable Integer matchId, Authentication authentication) {
+        String login = (String) authentication.getPrincipal();
+        User user = userRepository.findByLogin(login).orElseThrow(() -> new RuntimeException("User not found"));
+
+        user.setGlobalPoints(user.getGlobalPoints() + 1);
+        userRepository.save(user);
+        return ResponseEntity.ok("Match " + matchId + " won by user " + user.getLogin() + " (total points: " + user.getGlobalPoints() + ")");
     }
 }
