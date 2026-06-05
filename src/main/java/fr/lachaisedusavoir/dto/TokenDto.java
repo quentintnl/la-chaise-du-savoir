@@ -1,9 +1,9 @@
 package fr.lachaisedusavoir.dto;
 
-public class TokenDTO {
+public class TokenDto {
     private String token;
 
-    public TokenDTO(String token) {
+    public TokenDto(String token) {
         this.token = token;
     }
 
