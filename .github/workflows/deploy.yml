@@ -15,13 +15,6 @@ jobs:
     name: 🔍 Lint Dockerfile
     runs-on: ubuntu-latest
 
-  build-and-push:
-    name: 🛠️ Build and Push Docker Image
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
@@ -34,6 +27,14 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+  build-and-push:
+    name: 🛠️ Build and Push Docker Image
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
       - name: Checkout Repository
         uses: actions/checkout@v6
 
