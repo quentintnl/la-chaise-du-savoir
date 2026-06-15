@@ -1,4 +1,3 @@
-version: '3'
 services:
   db:
     image: mysql:latest
@@ -9,11 +8,31 @@ services:
       - MYSQL_DATABASE=la-chaise-du-savoir
     volumes:
       - db_data:/var/lib/mysql
-  app:
+    networks:
+      - lcds-network
+
+  back:
     build: .
     ports:
       - "8080:8080"
     environment:
       - "SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/la-chaise-du-savoir"
+    networks:
+      - lcds-network
+
+  front:
+    build: ../la-chaise-du-savoir-front
+    ports:
+      - "3000:3000"
+    environment:
+        - "NEXT_PUBLIC_API_BASE_URL=http://back:8080/api"
+    networks:
+      - lcds-network
+
+networks:
+  lcds-network:
+    name: lcds-network
+    driver: bridge
+
 volumes:
   db_data:
