@@ -12,7 +12,8 @@ services:
       - lcds-network
 
   back:
-    build: .
+    #build: .
+    image: ghcr.io/quentintnl/la-chaise-du-savoir:latest@sha256:78b9372a6188d37f3905cf4317cd70f0c22932ad8da3dab64a83457076f02c22
     ports:
       - "8080:8080"
     environment:
