@@ -14,8 +14,7 @@ L’ensemble est orchestré avec **Docker Compose**.
 
 Avant de commencer, assure-toi d’avoir installé :
 
-- Docker → https://www.docker.com/
-- Docker Desktop (inclus avec Docker Desktop)
+- Docker Desktop → https://docs.docker.com/get-started/get-docker/
 - Java 17
 - Node.js 24
 - npm 11
