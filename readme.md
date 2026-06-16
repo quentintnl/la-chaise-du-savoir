@@ -36,7 +36,7 @@ Avant de commencer, assure-toi d’avoir installé :
 ### Démarrer le projet
 Place-toi à la racine du projet (là où se trouve compose.yml) puis exécute :
 
-```docker compose up -d --build ```
+```docker compose up -d ```
 
 
 ## Accès aux services
