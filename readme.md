@@ -1,4 +1,4 @@
-# La Chaise du Savoir
+# La Chaise du Savoir Quentin - Chloé - Morgane
 ### Lancement en local
 
 Ce projet est composé de trois services :
