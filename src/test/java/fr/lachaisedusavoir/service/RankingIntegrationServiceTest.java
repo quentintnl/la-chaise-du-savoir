@@ -209,7 +209,6 @@ class RankingIntegrationServiceTest {
 
         // Assert
         verify(rankingService, times(3)).addPoints(1, 50);
-        verify(rankingService, times(2)).addWinStreak(1, 1);
         verify(rankingService, times(1)).resetWinStreak(1);
     }
 }

@@ -1,7 +1,5 @@
 package fr.lachaisedusavoir.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.lachaisedusavoir.controller.RankingController;
 import fr.lachaisedusavoir.dto.RankingDTO;
 import fr.lachaisedusavoir.models.User;
 import fr.lachaisedusavoir.service.RankingService;
@@ -11,8 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -21,7 +17,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.Matchers.*;
-import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
